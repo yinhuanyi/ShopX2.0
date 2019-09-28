@@ -19,8 +19,10 @@ from Mxshop.settings import MEDIA_ROOT
 from django.views.static import serve
 from goods.django_rest_view.good import GoodsListViewSet
 from goods.django_rest_view.category import CategoryViewSet
+from rest_framework.authtoken import views
 # rest framework
 from rest_framework.documentation import include_docs_urls
+from rest_framework_jwt.views import obtain_jwt_token
 
 
 # 导入默认路由
@@ -41,6 +43,12 @@ urlpatterns = [
 
     # url(r'^goods/$', goods_list, name='goods'),
     url(r'^', include(router.urls)),
+
+    # 配置URL的token
+    # url(r'^api-token-auth/', views.obtain_auth_token),
+
+    # 配置第三方的jwt
+    url(r'^login/', obtain_jwt_token),
 
 ]
 

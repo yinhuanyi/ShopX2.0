@@ -9,6 +9,7 @@ from rest_framework import mixins,viewsets
 from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.authentication import TokenAuthentication
 from ..models.good import Goods
 from ..models import Goods
 from ..serializers.good import GoodsSerializer
@@ -16,10 +17,11 @@ from ..filters.good import GoodsFilter
 
 # 商品分页
 class StandardResultsSetPagination(PageNumberPagination):
-    page_query_param = 'current_page'
+    # 将请求参数与前端保持一致
+    page_query_param = 'page'
     page_size_query_param = 'page_size'
     max_page_size = 100
-    page_size = 6
+    page_size = 12
     ordering = 'id'
 
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -34,7 +36,10 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     # 基于drf的filter，指定需要搜索的字典，
     search_fields = ('name', 'goods_brief', 'goods_desc')
     # 指定排序的字段
-    ordering_fields = ('shop_price',)
+    ordering_fields = ('sold_num','shop_price')
+
+    # authentication_classes = (TokenAuthentication, )
+
 
     # 重写get_queryset方法，实现对数据过滤
     def get_queryset(self):
