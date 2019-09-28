@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import sys
 import os
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -171,8 +172,19 @@ REST_FRAMEWORK = {
     ]
 }
 
+# 6：设置用户认证
+AUTHENTICATION_BACKENDS = (
+    'users.django_rest_view.CustomBackend',
+)
 
 
+# 7： JWG设置其他属性
+JWT_AUTH = {
+    # 设置前缀
+	'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    # 设置Token过期时间
+	'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+}
 
 
 
