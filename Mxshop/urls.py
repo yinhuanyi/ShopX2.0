@@ -19,10 +19,16 @@ from Mxshop.settings import MEDIA_ROOT
 from django.views.static import serve
 from goods.django_rest_view.good import GoodsListViewSet
 from goods.django_rest_view.category import CategoryViewSet
-from rest_framework.authtoken import views
+from users.django_rest_view import SMSVerifyCodeViewSet, UserViewSet
+from user_operation.django_rest_view import UserFavViewSet, UserLivingMessageViewSet, UserAddressViewSet
+
+
+
+
 # rest framework
 from rest_framework.documentation import include_docs_urls
 from rest_framework_jwt.views import obtain_jwt_token
+
 
 
 # 导入默认路由
@@ -30,7 +36,18 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 # 配置将访问goods的url让GoodsListViewSet这个view处理
 router.register(r'goods', GoodsListViewSet, base_name='goods')
+# 类别列表功能
 router.register(r'categorys', CategoryViewSet, base_name='categorys')
+# 用户注册发送短信验证码的路由
+router.register(r'codes', SMSVerifyCodeViewSet, base_name='codes')
+# 用户注册功能
+router.register(r'users', UserViewSet, base_name='users')
+# 用户收藏功能
+router.register(r'userfavs', UserFavViewSet, base_name='userfavs')
+# 用户留言信息
+router.register(r'messages', UserLivingMessageViewSet, base_name='messages')
+# 用户后货地址
+router.register(r'address', UserAddressViewSet, base_name='address')
 
 
 urlpatterns = [

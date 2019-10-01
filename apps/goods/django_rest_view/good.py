@@ -24,7 +24,7 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size = 12
     ordering = 'id'
 
-class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     # 这里需要重新将queryset赋值
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
@@ -37,8 +37,6 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     search_fields = ('name', 'goods_brief', 'goods_desc')
     # 指定排序的字段
     ordering_fields = ('sold_num','shop_price')
-
-    # authentication_classes = (TokenAuthentication, )
 
 
     # 重写get_queryset方法，实现对数据过滤

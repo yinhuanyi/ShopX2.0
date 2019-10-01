@@ -158,8 +158,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # }
 
 
-
-
 # 4：设置服务器运行跨域
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -168,7 +166,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 将JWT的token认证配置到具体的view中，不要配置到全局
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ]
 }
 
@@ -176,7 +175,6 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = (
     'users.django_rest_view.CustomBackend',
 )
-
 
 # 7： JWG设置其他属性
 JWT_AUTH = {
@@ -187,7 +185,8 @@ JWT_AUTH = {
 }
 
 
-
+# 8：手机号码验证正则
+REGEX_MOBILE = '^1((3[\d])|(4[75])|(5[^3|4])|(66)|(7[013678])|(8[\d])|(9[89]))\d{8}$'
 
 
 
