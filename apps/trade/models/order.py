@@ -27,6 +27,7 @@ class OrderInfo(models.Model):
     )
     # 订单是子model，User是父model
     user = models.ForeignKey(User, verbose_name="用户")
+    # 订单号不是用户post提交数据创建的，是后台生成的
     order_sn = models.CharField(max_length=30, null=True, blank=True, unique=True, verbose_name="订单号")
     trade_no = models.CharField(max_length=100, unique=True, null=True, blank=True, verbose_name=u"交易号")
     pay_status = models.CharField(choices=ORDER_STATUS, default="paying", max_length=30, verbose_name="订单状态")
@@ -48,7 +49,7 @@ class OrderInfo(models.Model):
     def __str__(self):
         return str(self.order_sn)
 
-# 创建订单的商品详情
+# 从表创建订单的商品详情
 class OrderGoods(models.Model):
     """
     订单的商品详情
@@ -56,7 +57,6 @@ class OrderGoods(models.Model):
     order = models.ForeignKey(OrderInfo, verbose_name="订单信息", related_name="goods")
     goods = models.ForeignKey(Goods, verbose_name="商品")
     goods_num = models.IntegerField(default=0, verbose_name="商品数量")
-
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:

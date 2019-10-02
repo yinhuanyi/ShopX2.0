@@ -22,7 +22,8 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 100
     page_size = 12
-    ordering = 'id'
+    # 这里使用id排序会报错，所以使用售卖数排序
+    ordering = 'sold_num'
 
 class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     # 这里需要重新将queryset赋值

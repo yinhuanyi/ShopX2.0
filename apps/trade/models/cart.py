@@ -27,6 +27,7 @@ class ShoppingCart(models.Model):
     class Meta:
         verbose_name = '购物车'
         verbose_name_plural = verbose_name
+        # 这里将用户与商品建立联合唯一索引，指明一个用户对一个商品添加记录只能有一次
         unique_together = ("user", "goods")
 
     def __str__(self):

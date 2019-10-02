@@ -21,14 +21,11 @@ from goods.django_rest_view.good import GoodsListViewSet
 from goods.django_rest_view.category import CategoryViewSet
 from users.django_rest_view import SMSVerifyCodeViewSet, UserViewSet
 from user_operation.django_rest_view import UserFavViewSet, UserLivingMessageViewSet, UserAddressViewSet
-
-
-
+from trade.django_rest_view import ShoppingCartViewSet, UserOrderViewSet
 
 # rest framework
 from rest_framework.documentation import include_docs_urls
 from rest_framework_jwt.views import obtain_jwt_token
-
 
 
 # 导入默认路由
@@ -48,22 +45,20 @@ router.register(r'userfavs', UserFavViewSet, base_name='userfavs')
 router.register(r'messages', UserLivingMessageViewSet, base_name='messages')
 # 用户后货地址
 router.register(r'address', UserAddressViewSet, base_name='address')
-
+# 购物车功能
+router.register(r'shopcarts', ShoppingCartViewSet, base_name='shopcarts')
+# 用户订单功能
+router.register(r'orders', UserOrderViewSet, base_name='orders')
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
-
-    # rest url
+    # DRF文档接口
     url(r'docs/',  include_docs_urls(title='电商平台')),
+    # DRF认证接口
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
-    # url(r'^goods/$', goods_list, name='goods'),
+    # 全局路由
     url(r'^', include(router.urls)),
-
-    # 配置URL的token
-    # url(r'^api-token-auth/', views.obtain_auth_token),
-
     # 配置第三方的jwt
     url(r'^login/', obtain_jwt_token),
 
