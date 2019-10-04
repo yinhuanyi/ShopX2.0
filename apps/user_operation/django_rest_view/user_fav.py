@@ -41,3 +41,12 @@ class UserFavViewSet(mixins.CreateModelMixin,
     # 根据用户的操作选择不同的序列化类
     def get_serializer_class(self):
         return UserFavDetailSerializer if self.action == 'list' else UserFavSerializer
+
+    # # 当用户点击某个商品收藏，发送post请求的时候，让这个商品的fav_num加1
+    # def perform_create(self, serializer):
+    #     # 这个instance是UserFav这个Model，Model有一个外键为goods
+    #     instance = serializer.save()
+    #     goods = instance.goods
+    #     goods.fav_num += 1
+    #     goods.save()
+

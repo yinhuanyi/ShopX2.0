@@ -22,7 +22,7 @@ class GoodsFilter(filters.FilterSet):
     def top_catetory_filter(self, queryset, name, value):
         # 这里的queryset返回的是Goods的实例列表，过滤商品类别等于value的实例或者商品类别的父类别等于value的实例或者商品类别的爷爷类别等于value的实例
         # 这里category、parent_category都是外键，那么要获取外键的ID，直接在后面加上_id即可获取
-        # 这里主要逻辑的实现是基于Goods这个Model有一个外键category属于GoodCategory这个Model, 这样就可以使用获取一个商品后，找到其一级类别，最后根据过滤规则判断是否这个一级类别的值低于value， 如果等于，那么这个商品将会保留下来
+        # 这里主要逻辑的实现是基于Goods这个Model有一个外键category属于GoodCategory这个Model, 这样就可以使用获取一个商品后，找到其一级类别，最后根据过滤规则判断是否这个一级类别的值等于value， 如果等于，那么这个商品将会保留下来
         queryset = queryset.filter(Q(category_id = value) | \
                                    Q(category__parent_category_id = value) | \
                                    Q(category__parent_category__parent_category_id = value))
@@ -31,7 +31,7 @@ class GoodsFilter(filters.FilterSet):
 
     class Meta:
         model = Goods
-        fields = ['pricemin', 'pricemax', 'name', 'is_hot']
+        fields = ['pricemin', 'pricemax', 'name', 'is_hot', 'is_new']
 
 
 

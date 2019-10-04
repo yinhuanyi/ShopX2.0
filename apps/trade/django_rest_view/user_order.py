@@ -13,9 +13,11 @@ from utils.permissions import IsOwnerOrReadOnly
 from ..models import ShoppingCart
 from ..serializers import UserOrderSerializer, UserOrderDetailSerializer
 from ..models import OrderInfo, OrderGoods
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 
-class UserOrderViewSet(mixins.ListModelMixin,
+class UserOrderViewSet(CacheResponseMixin,
+                       mixins.ListModelMixin,
                        mixins.CreateModelMixin,
                        mixins.DestroyModelMixin,
                        mixins.RetrieveModelMixin,
@@ -49,6 +51,7 @@ class UserOrderViewSet(mixins.ListModelMixin,
 
             # 删除购物车的记录
             shopcart_record.delete()
+        # return order
 
     def get_serializer_class(self):
         return UserOrderDetailSerializer if self.action == 'retrieve' else UserOrderSerializer

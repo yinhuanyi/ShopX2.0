@@ -7,3 +7,5 @@
 """
 from .category import *
 from .good import *
+from .banner import *
+from .index_goods import *

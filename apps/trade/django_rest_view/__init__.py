@@ -8,3 +8,4 @@
 
 from .shop_cart import *
 from .user_order import *
+from .alipay import *

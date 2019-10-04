@@ -5,5 +5,9 @@
 @Create date: 2019-09-27
 @Function: 
 """
+from .brand import *
 from .category import *
 from .good import *
+from .banner import *
+from .index_goods import *
+

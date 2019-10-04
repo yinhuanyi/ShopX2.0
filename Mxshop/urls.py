@@ -17,15 +17,17 @@ from django.conf.urls import url, include
 import xadmin
 from Mxshop.settings import MEDIA_ROOT
 from django.views.static import serve
-from goods.django_rest_view.good import GoodsListViewSet
-from goods.django_rest_view.category import CategoryViewSet
+from goods.django_rest_view import GoodsListViewSet, CategoryViewSet, BannerViewSet, IndexCategoryViewSet
 from users.django_rest_view import SMSVerifyCodeViewSet, UserViewSet
 from user_operation.django_rest_view import UserFavViewSet, UserLivingMessageViewSet, UserAddressViewSet
 from trade.django_rest_view import ShoppingCartViewSet, UserOrderViewSet
 
+
 # rest framework
 from rest_framework.documentation import include_docs_urls
 from rest_framework_jwt.views import obtain_jwt_token
+
+from trade.django_rest_view import AliPayView
 
 
 # 导入默认路由
@@ -49,6 +51,10 @@ router.register(r'address', UserAddressViewSet, base_name='address')
 router.register(r'shopcarts', ShoppingCartViewSet, base_name='shopcarts')
 # 用户订单功能
 router.register(r'orders', UserOrderViewSet, base_name='orders')
+# 轮播图展示
+router.register(r'banners', BannerViewSet, base_name='banners')
+# 首页类别查询
+router.register(r'index_category_goods', IndexCategoryViewSet, base_name='index_category_goods')
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -62,6 +68,7 @@ urlpatterns = [
     # 配置第三方的jwt
     url(r'^login/', obtain_jwt_token),
 
+    url(r'alipay/return', AliPayView.as_view(), name='alipay')
 ]
 
 

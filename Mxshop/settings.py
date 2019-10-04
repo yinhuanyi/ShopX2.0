@@ -29,7 +29,7 @@ SECRET_KEY = '$5r&1qdqe#%*x_2fa7kgc!w6k5c_-v@!050hcn0un0fb&dv_t$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -168,7 +168,16 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         # 将JWT的token认证配置到具体的view中，不要配置到全局
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    ]
+    ],
+    # 配置限速
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    }
 }
 
 # 6：设置用户认证
@@ -190,5 +199,22 @@ REGEX_MOBILE = '^1((3[\d])|(4[75])|(5[^3|4])|(66)|(7[013678])|(8[\d])|(9[89]))\d
 
 
 
+# 9：配置alipay相关路径
+private_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/private_2048.txt')
+ali_public_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay.txt')
 
+# 10：设置全局缓存过期时间为5秒
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 100,
+}
 
+# 11：配置redis缓存
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://:123456@localhost:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
